@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+//Route::get('/', function () {
+//    return Inertia::render('welcome');
+//})->name('home');
 Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
@@ -14,7 +18,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-Route::get('test', [ProductController::class, 'test']);
+Route::get('/products',function (){
+    $products = Product::all();
+
+    return Inertia::render('products',['products'=>$products]);
+});
+Route::get('/productsaa',function (){
+
+    return Inertia::render('sigle-product');
+});
+//Route::resource('test', ProductController::class);
+//Route::get('test', [ProductController::class, 'test']);
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
