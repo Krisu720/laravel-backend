@@ -17,13 +17,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::get('/products',function (){
     $products = Product::all();
-
+    
     return Inertia::render('products',['products'=>$products]);
 });
-Route::get('/productsaa',function (){
-
-    return Inertia::render('sigle-product');
+Route::get('/product/{product}',function (Product $product){
+    return Inertia::render('sigle-product',['product'=>$product]);
 });
+
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

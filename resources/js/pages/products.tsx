@@ -7,6 +7,7 @@ type Props = {
         name: string;
         description: string;
         price: number;
+        image: string;
     }[]
 }
 export default function Products({ products }: Props) {
