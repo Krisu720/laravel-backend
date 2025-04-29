@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CreateOrderRequest;
+use App\Models\Order;
+use App\Models\Product;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -25,17 +29,39 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateOrderRequest $request): JsonResponse
     {
-        $data = $request->validate([
-            'address' => ['string', 'min:3'],
-            'phone' => ['required','string','min:3'],
-            'email' => ['required', 'email', 'min:0'],
-            'note' => ['nullable','string']
-        ]);
+        $validated = $request->validated();
+        
+        try {
+            $result = DB::transaction(function () use ($validated, $request) {
+                $order = Order::create([
+                    'address' => $validated['address'],
+                    'phone' => $validated['phone'],
+                    'email' => $validated['email'],
+                    'note' => $validated['note'] ?? null,
+                    'user_id' => $request->user()->id,
+                    'status' => 'pending'
+                ]);
 
-        $order = Order::create($data);
-        return response()->json($order);
+                foreach ($validated['items'] as $item) {
+                    $product = Product::findOrFail($item['product_id']);
+                    
+                    $order->items()->create([
+                        'product_id' => $product->id,
+                        'product_name' => $product->name,
+                        'product_price' => $product->price,
+                        'quantity' => $item['quantity']
+                    ]);
+                }
+
+                return $order->load('items');
+            });
+
+            return response()->json($result, 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to create order'], 500);
+        }
     }
 
     /**

@@ -1,8 +1,9 @@
 import Navbar from '@/components/navbar'
 import { Button } from '@/components/ui/button'
 import React from 'react'
+import useCartStore from '@/hooks/use-cart-store'
 
-type Product = {
+export type Product = {
     id: number;
     name: string;
     description: string;
@@ -11,6 +12,9 @@ type Product = {
 }
 
 const SingleProduct = (props: { product: Product }) => {
+
+    const {addProduct} = useCartStore();
+
     return (
         <div>
             <Navbar />
@@ -21,8 +25,7 @@ const SingleProduct = (props: { product: Product }) => {
                     <h2 className='text-xl text-gray-500 mt-4'>{props.product.description}</h2>
                     <p className='text-semibold text-2xl mt-6'>{props.product.price.toFixed(2)} PLN</p>
                     <div className='mt-8 flex'>
-
-                        <Button>Dodaj produkt</Button>
+                        <Button onClick={() => addProduct(props.product)}>Dodaj produkt</Button>
                     </div>
                 </div>
             </div>

@@ -6,22 +6,19 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('welcome');
+    $products = Product::all();
+    
+    return Inertia::render('products',['products'=>$products]);
 })->name('home');
+
+Route::get('/product/{product}',function (Product $product){
+    return Inertia::render('sigle-product',['product'=>$product]);
+})->name('product');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
-});
-
-Route::get('/products',function (){
-    $products = Product::all();
-    
-    return Inertia::render('products',['products'=>$products]);
-});
-Route::get('/product/{product}',function (Product $product){
-    return Inertia::render('sigle-product',['product'=>$product]);
 });
 
 
