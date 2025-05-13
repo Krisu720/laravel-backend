@@ -15,6 +15,10 @@ Route::get('/product/{product}',function (Product $product){
     return Inertia::render('sigle-product',['product'=>$product]);
 })->name('product');
 
+Route::get('/mainpage',function (){
+    return Inertia::render('mainpage');
+})->name('mainpage');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
