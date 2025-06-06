@@ -64,7 +64,7 @@ const Navbar = () => {
                     <div className="flex flex-col gap-4 p-2">
                         {products.map(product => (
                             <div className="rounded-xl border p-2 flex">
-                                <img className="size-25 rounded-xl" src={product.image ? "http://localhost:8000/storage/" + product.image : 'https://placehold.co/600x600'} />
+                                <img className="size-25 rounded-xl object-contain" src={product.image ? "http://localhost:8000/storage/" + product.image : 'https://placehold.co/600x600'} />
                                 <div className="flex flex-col ml-2 my-auto">
                                     <div className="flex justify-between">
                                         <div className="flex flex-col">

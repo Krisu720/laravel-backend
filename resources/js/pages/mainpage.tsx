@@ -88,9 +88,9 @@ const Mainpage = () => {
                         skipSnaps: false,
                         loop: true,
                     }}>
-                        <CarouselContent className='flex gap-4'>
+                        <CarouselContent className='flex '>
                             {Array.from({ length: 8 }).map((_, index) => (
-                                <CarouselItem key={index} className='basis-1/4 '>
+                                <CarouselItem key={index} className='basis-1/4'>
                                     <img src="suitproduct.webp" className='h-100 w-full object-cover' />
                                     <div className='bg-white p-4 '>
                                         <h1 className='font-bold'>Men's Suit</h1>
