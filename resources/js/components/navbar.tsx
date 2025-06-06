@@ -1,5 +1,5 @@
 import useCartStore from "@/hooks/use-cart-store";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MinusIcon, PlusIcon, Trash, X } from "lucide-react";
 import { useState } from "react";
@@ -9,10 +9,13 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { TextEffect } from "./ui/text-effect";
+import { useMobileNavigation } from "@/hooks/use-mobile-navigation";
+import { type SharedData } from "@/types";
+
 const Navbar = () => {
-
+    const { auth } = usePage<SharedData>().props;
     const { products, removeProduct, setQuantity } = useCartStore()
-
+    const cleanup = useMobileNavigation();
 
     const [isOpen, setIsOpen] = useState(false)
     return (
@@ -36,15 +39,30 @@ const Navbar = () => {
                                 </TextEffect>
                             </Link>
                             <Link href="/" className="text-8xl hover:bg-black hover:text-white">
-                                <TextEffect delay={0.1}  per='line' as='h3' preset='slide'>
+                                <TextEffect delay={0.1} per='line' as='h3' preset='slide'>
                                     PRODUKTY
                                 </TextEffect>
                             </Link>
-                            <Link href="/account" className="text-8xl hover:bg-black hover:text-white">
-                                <TextEffect delay={0.2} per='line' as='h3' preset='slide'>
-                                    KONTO
-                                </TextEffect>
-                            </Link>
+                            {auth.user ? (
+                                <>
+                                    <Link href="/konto" className="text-8xl hover:bg-black hover:text-white">
+                                        <TextEffect delay={0.2} per='line' as='h3' preset='slide'>
+                                            KONTO
+                                        </TextEffect>
+                                    </Link>
+                                    <Link className="text-8xl hover:bg-black hover:text-white text-start" method="post" href={route('logout')} as="button" onClick={cleanup}>
+                                        <TextEffect delay={0.2} per='line' as='h3' preset='slide'>
+                                            WYLOGUJ SIĘ
+                                        </TextEffect>
+                                    </Link>
+                                </>
+                            ) : <>
+                                <Link href="/login" className="text-8xl hover:bg-black hover:text-white">
+                                    <TextEffect delay={0.2} per='line' as='h3' preset='slide'>
+                                        ZALOGUJ SIĘ
+                                    </TextEffect>
+                                </Link>
+                            </>}
                         </div>
                     </motion.div>
                 )}

@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PasswordController;
+use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,10 +22,13 @@ Route::get('/mainpage',function (){
     return Inertia::render('mainpage');
 })->name('mainpage');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('konto', function () {
+        $orders = Order::where('user_id', Auth::id())->get();
+        return Inertia::render('konto',['orders'=>$orders]);
+    })->name('konto');
+
+    Route::put('/password', [PasswordController::class, 'update'])->name('password.update');
 });
 
 
