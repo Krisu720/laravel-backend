@@ -1,8 +1,8 @@
-import Navbar from '@/components/navbar'
 import { AnimatedNumber } from '@/components/ui/animated-number'
 import { Button } from '@/components/ui/button'
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { InfiniteSlider } from '@/components/ui/infinite-slider'
+import AppLayout from '@/layouts/app-layout'
 import { Link } from '@inertiajs/react'
 import { useInView } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ArrowUpRightIcon, LeafIcon } from 'lucide-react'
@@ -46,9 +46,8 @@ const Mainpage = () => {
     ]
 
     return (
-        <div>
-            <div className='h-svh flex flex-col'>
-                <Navbar />
+        <AppLayout>
+            <div className='h-[calc(100svh-68px)] flex flex-col'>
                 <div className='h-full px-6 pb-6'>
                     <div className='bg-gray-100 h-full grid grid-cols-2 gap-6 overflow-hidden relative'>
                         <InfiniteSlider className='absolute bottom-0'>
@@ -176,7 +175,7 @@ const Mainpage = () => {
                     <a href="/" className="text-lg  hover:bg-black hover:text-white">Repository</a>
                 </div>
             </div>
-        </div>
+        </AppLayout>
     )
 }
 

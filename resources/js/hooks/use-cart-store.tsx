@@ -30,7 +30,7 @@ const useCartStore = create(persist<CartStore>(
         removeProduct: (product) => set((state) => ({
             products: state.products.filter((p) => p.id !== product.id),
         })),
-        clearCart: () => set((state) => ({
+        clearCart: () => set(() => ({
             products: [],
         })),
     }),
