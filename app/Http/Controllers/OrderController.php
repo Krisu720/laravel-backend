@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -31,36 +32,50 @@ class OrderController extends Controller
      */
     public function store(CreateOrderRequest $request): JsonResponse
     {
-        $validated = $request->validated();
-        
         try {
-            $result = DB::transaction(function () use ($validated, $request) {
-                $order = Order::create([
-                    'address' => $validated['address'],
-                    'phone' => $validated['phone'],
-                    'email' => $validated['email'],
-                    'note' => $validated['note'] ?? null,
-                    'user_id' => $request->user()->id,
-                    'status' => 'pending'
+            DB::beginTransaction();
+
+            $orderData = [
+                'first_name' => $request->firstName,
+                'last_name' => $request->lastName,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'street' => $request->street,
+                'postal_code' => $request->postalCode,
+                'city' => $request->city,
+            ];
+
+            // Jeśli użytkownik jest zalogowany, dodaj jego ID
+            if (auth()->check()) {
+                $orderData['user_id'] = auth()->id();
+            }
+
+            $order = Order::create($orderData);
+
+            foreach ($request->products as $item) {
+                $product = Product::find($item['id']);
+                
+                $order->items()->create([
+                    'product_id' => $product->id,
+                    'product_name' => $product->name,
+                    'product_price' => $product->price,
+                    'quantity' => $item['quantity']
                 ]);
+            }
 
-                foreach ($validated['items'] as $item) {
-                    $product = Product::findOrFail($item['product_id']);
-                    
-                    $order->items()->create([
-                        'product_id' => $product->id,
-                        'product_name' => $product->name,
-                        'product_price' => $product->price,
-                        'quantity' => $item['quantity']
-                    ]);
-                }
+            DB::commit();
 
-                return $order->load('items');
-            });
+            return response()->json([
+                'message' => 'Zamówienie zostało utworzone',
+                'order' => $order->load('items')
+            ], 201);
 
-            return response()->json($result, 201);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to create order'], 500);
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Wystąpił błąd podczas tworzenia zamówienia',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 

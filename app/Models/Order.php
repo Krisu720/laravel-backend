@@ -12,12 +12,15 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'address',
-        'phone',
+        'first_name',
+        'last_name',
         'email',
-        'note',
-        'status',
-        'user_id'
+        'phone',
+        'street',
+        'postal_code',
+        'city',
+        'user_id',
+        'status'
     ];
 
     public function user(): BelongsTo

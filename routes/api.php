@@ -14,6 +14,6 @@ Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 Route::post('/products/{product}/image', [ProductImageController::class, 'upload'])->name('products.image.upload');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['web', 'auth'])->group(function () {
     Route::resource('orders', OrderController::class);
 });

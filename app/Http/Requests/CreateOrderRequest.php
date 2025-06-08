@@ -14,13 +14,16 @@ class CreateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'address' => ['required', 'string', 'min:3'],
-            'phone' => ['required', 'string', 'min:3'],
-            'email' => ['required', 'email'],
-            'note' => ['nullable', 'string'],
-            'items' => ['required', 'array', 'min:1'],
-            'items.*.product_id' => ['required', 'exists:products,id'],
-            'items.*.quantity' => ['required', 'integer', 'min:1'],
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+            'street' => 'required|string',
+            'postalCode' => 'required|string|regex:/^\d{2}-\d{3}$/',
+            'city' => 'required|string',
+            'products' => 'required|array',
+            'products.*.id' => 'required|exists:products,id',
+            'products.*.quantity' => 'required|integer|min:1'
         ];
     }
 }

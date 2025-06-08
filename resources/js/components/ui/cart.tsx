@@ -13,6 +13,7 @@ import { usePage } from "@inertiajs/react";
 import { SharedData } from "@/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import axios from "axios";
 
 const formSchema = z.object({
     firstName: z.string().min(1, "Imię jest wymagane"),
@@ -64,25 +65,35 @@ const Cart = () => {
     
 
     const createOrder = async () => {
+        const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        
         const mockOrder = new Promise((resolve) => {
-        // taki obiekt do zrobienia zamówienia    z.object({
-        //         firstName: z.string().min(1, "Imię jest wymagane"),
-        //         lastName: z.string().min(1, "Nazwisko jest wymagane"),
-        //         email: z.string().min(1, "Email jest wymagany").email("Nieprawidłowy format email"),
-        //         phone: z.string().min(1, "Telefon jest wymagany"),
-        //         street: z.string().min(1, "Ulica jest wymagana"),
-        //         postalCode: z.string().min(1, "Kod pocztowy jest wymagany").regex(/^\d{2}-\d{3}$/, "Nieprawidłowy format kodu pocztowego"),
-        //         city: z.string().min(1, "Miasto jest wymagane")
-        //     });
             setTimeout(() => {
-                resolve(true)
-                setIsLoading(false)
-                setIsOpen(false)
-                clearCart()
-                reset()
-            }, 4000)
-        })
-        console.log(getValues())
+                axios.post('/api/orders', {
+                    firstName: getValues('firstName'),
+                    lastName: getValues('lastName'),
+                    email: getValues('email'),
+                    phone: getValues('phone'),
+                    street: getValues('street'),
+                    postalCode: getValues('postalCode'),
+                    city: getValues('city'),
+                    products: products.map(product => ({
+                        id: product.id,
+                        quantity: product.quantity
+                    }))
+                }, {
+                    headers: {
+                        'X-CSRF-TOKEN': token
+                    }
+                }).then(() => {
+                    setIsLoading(false);
+                    setIsOpen(false);
+                    clearCart();
+                    reset();
+                    resolve(true);
+                });
+            }, 5000);
+        });
         setIsLoading(true)
 
         toast.promise(mockOrder, {
@@ -90,7 +101,6 @@ const Cart = () => {
             success: "Zamówienie złożone. Przejdź na zakładke konto, aby zobaczyć swoje zamówienia.",
             error: "Błąd podczas tworzenia zamówienia",
         })
-
     }
 
     const pages = [<></>, <div className="flex flex-col gap-4 px-4">
