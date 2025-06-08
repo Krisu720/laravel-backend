@@ -5,9 +5,11 @@ interface AppLayoutProps {
     children: ReactNode;
 }
 
-export default ({ children,  ...props }: AppLayoutProps) => (
-    <div {...props}>
-        <Navbar />
-        {children}
-    </div>
+export default ({ children, ...props }: AppLayoutProps) => (
+    <>
+        <div {...props}>
+            <Navbar />
+            {children}
+        </div>
+    </>
 );
