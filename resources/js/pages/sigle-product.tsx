@@ -48,13 +48,13 @@ const SingleProduct = (props: { product: Product }) => {
                                 </NumberField>
                             </div>
                         ) : (
-                            <Button onClick={() => addProduct(props.product)}>Dodaj produkt</Button>
+                            <Button onClick={() => addProduct(props.product)}>Add product</Button>
                         )}
                     </div>
                 </div>
             </div>
             <div className='container'>
-                <h1 className='text-6xl font-bold mx-auto mb-6'>Inne</h1>
+                <h1 className='text-6xl font-bold mx-auto mb-6'>Other products</h1>
                 <CarouselItems />
             </div>
         </AppLayout>

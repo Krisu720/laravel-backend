@@ -1,10 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from './ui/carousel'
 import { Button } from './ui/button'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import axios from 'axios'
+import { Link } from '@inertiajs/react'
+
+interface Product {
+    id: number
+    name: string
+    description: string
+    price: string
+    image: string
+}
 
 const CarouselItems = () => {
     const [api, setApi] = useState<CarouselApi>()
+    const [products, setProducts] = useState<Product[]>([])
+
+    useEffect(() => {
+        axios
+            .get('/api/products') // This is a placeholder, you should replace it with your actual API endpoint
+            .then(response => {
+                setProducts(response.data)
+            })
+            .catch(error => {
+                console.error('Error fetching products:', error)
+            })
+    }, [])
 
     const handleNext = () => {
         api?.scrollNext()
@@ -33,17 +55,18 @@ const CarouselItems = () => {
                     loop: true,
                 }}>
                     <CarouselContent className='flex '>
-                        {Array.from({ length: 8 }).map((_, index) => (
-                            <CarouselItem key={index} className='basis-1/4'>
-                                <img src="suitproduct.webp" className='h-100 w-full object-cover' />
-                                <div className='bg-white p-4 '>
-                                    <h1 className='font-bold'>Men's Suit</h1>
-                                    <h1 className='text-gray-700 text-sm'>100% Cotton Blue Suit </h1>
-                                    <h1 className='mt-2'>80.99 PLN</h1>
-                                </div>
+                        {products.map(product => (
+                            <CarouselItem key={product.id} className='basis-1/4 cursor-pointer'>
+                                <Link href={`/products/${product.id}`}>
+                                    <img src={product.image} className='h-100 w-full object-cover' />
+                                    <div className='bg-white p-4 '>
+                                        <h1 className='font-bold'>{product.name}</h1>
+                                        <h1 className='text-gray-700 text-sm'>{product.description}</h1>
+                                        <h1 className='mt-2'>{product.price} PLN</h1>
+                                    </div>
+                                </Link>
                             </CarouselItem>
                         ))}
-
                     </CarouselContent>
                 </Carousel>
             </div>

@@ -49,7 +49,7 @@ const Mainpage = () => {
                         <div className='flex flex-col justify-center items-start gap-6 p-12'>
                             <h1 className='text-3xl font-thin'>Wear it classic</h1>
                             <h2 className='text-6xl font-extrabold'>Men's Collection</h2>
-                            <h3 className='text-2xl text-gray-600'>25% OFF with code "SUIT2025"</h3>
+                            <h3 className='text-2xl text-gray-600'>Get it now to be a gentleman</h3>
                             <Button size="lg" className='mt-6 w-50 py-8 text-xl'>Shop Now <ArrowUpRightIcon className='size-6' /></Button>
                         </div>
                         <div className='relative p-12'>

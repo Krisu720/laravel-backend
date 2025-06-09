@@ -9,20 +9,20 @@ import { Input } from "./input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { SharedData } from "@/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 
 const formSchema = z.object({
-    firstName: z.string().min(1, "Imię jest wymagane"),
-    lastName: z.string().min(1, "Nazwisko jest wymagane"),
-    email: z.string().min(1, "Email jest wymagany").email("Nieprawidłowy format email"),
-    phone: z.string().min(1, "Telefon jest wymagany"),
-    street: z.string().min(1, "Ulica jest wymagana"),
-    postalCode: z.string().min(1, "Kod pocztowy jest wymagany").regex(/^\d{2}-\d{3}$/, "Nieprawidłowy format kodu pocztowego"),
-    city: z.string().min(1, "Miasto jest wymagane")
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
+    email: z.string().min(1, "Email is required").email("Invalid email format"),
+    phone: z.string().min(1, "Phone is required"),
+    street: z.string().min(1, "Street is required"),
+    postalCode: z.string().min(1, "Postal code is required").regex(/^\d{2}-\d{3}$/, "Invalid postal code format"),
+    city: z.string().min(1, "City is required")
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -32,8 +32,8 @@ const Cart = () => {
     const [isOpen, setIsOpen] = useState(false)
     const { auth } = usePage<SharedData>().props
 
-    const { products, removeProduct, setQuantity,clearCart } = useCartStore()
-    const [step, { canGoToPrevStep, canGoToNextStep, goToNextStep, goToPrevStep ,reset}] = useStep(3)
+    const { products, removeProduct, setQuantity, clearCart } = useCartStore()
+    const [step, { canGoToPrevStep, canGoToNextStep, goToNextStep, goToPrevStep, reset }] = useStep(3)
 
     const {
         register,
@@ -62,11 +62,9 @@ const Cart = () => {
         goToNextStep();
     };
 
-    
-
     const createOrder = async () => {
         const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        
+
         const mockOrder = new Promise((resolve) => {
             setTimeout(() => {
                 axios.post('/api/orders', {
@@ -97,9 +95,9 @@ const Cart = () => {
         setIsLoading(true)
 
         toast.promise(mockOrder, {
-            loading: "Tworzenie zamówienia...",
-            success: "Zamówienie złożone. Przejdź na zakładke konto, aby zobaczyć swoje zamówienia.",
-            error: "Błąd podczas tworzenia zamówienia",
+            loading: "Creating order...",
+            success: "Order placed. Go to the account tab to see your orders.",
+            error: "Error while creating the order",
         })
     }
 
@@ -139,15 +137,15 @@ const Cart = () => {
                 </div>
             </div>
         ))}
-        {products.length < 1 && <p className="text-sm text-muted-foreground">Koszyk jest pusty</p>}
+        {products.length < 1 && <p className="text-sm text-muted-foreground">The cart is empty</p>}
     </div>,
     <div className="flex flex-col gap-4 px-4">
-        <h1 className="text-lg font-semibold">Dane osobowe</h1>
+        <h1 className="text-lg font-semibold">Personal data</h1>
         <div className="flex flex-col gap-4">
             <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1">
                     <Input
-                        placeholder="Imię"
+                        placeholder="First name"
                         {...register("firstName")}
                         className={errors.firstName ? 'border-red-500' : ''}
                     />
@@ -155,7 +153,7 @@ const Cart = () => {
                 </div>
                 <div className="flex flex-col gap-1">
                     <Input
-                        placeholder="Nazwisko"
+                        placeholder="Last name"
                         {...register("lastName")}
                         className={errors.lastName ? 'border-red-500' : ''}
                     />
@@ -172,7 +170,7 @@ const Cart = () => {
             </div>
             <div className="flex flex-col gap-1">
                 <Input
-                    placeholder="Telefon"
+                    placeholder="Phone"
                     {...register("phone")}
                     className={errors.phone ? 'border-red-500' : ''}
                 />
@@ -180,11 +178,11 @@ const Cart = () => {
             </div>
         </div>
 
-        <h1 className="text-lg font-semibold mt-4">Adres dostawy</h1>
+        <h1 className="text-lg font-semibold mt-4">Delivery address</h1>
         <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
                 <Input
-                    placeholder="Ulica i numer"
+                    placeholder="Street and number"
                     {...register("street")}
                     className={errors.street ? 'border-red-500' : ''}
                 />
@@ -193,7 +191,7 @@ const Cart = () => {
             <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1">
                     <Input
-                        placeholder="Kod pocztowy"
+                        placeholder="Postal code"
                         {...register("postalCode")}
                         className={errors.postalCode ? 'border-red-500' : ''}
                     />
@@ -201,7 +199,7 @@ const Cart = () => {
                 </div>
                 <div className="flex flex-col gap-1">
                     <Input
-                        placeholder="Miasto"
+                        placeholder="City"
                         {...register("city")}
                         className={errors.city ? 'border-red-500' : ''}
                     />
@@ -211,7 +209,7 @@ const Cart = () => {
         </div>
     </div>,
     <div className="flex flex-col gap-4 px-4">
-        <h1 className="text-2xl font-semibold">Podsumowanie</h1>
+        <h1 className="text-2xl font-semibold">Summary</h1>
         <div className="rounded-xl border p-4 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
                 {products.map(product => (
@@ -220,7 +218,7 @@ const Cart = () => {
                             <img className="size-12 rounded-lg object-contain" src={product.image ? "http://localhost:8000/storage/" + product.image : 'https://placehold.co/600x600'} />
                             <div>
                                 <p className="font-medium">{product.name}</p>
-                                <p className="text-sm text-muted-foreground">Ilość: {product.quantity}</p>
+                                <p className="text-sm text-muted-foreground">Quantity: {product.quantity}</p>
                             </div>
                         </div>
                         <p className="font-semibold">{(product.price * product.quantity).toFixed(2)} zł</p>
@@ -229,7 +227,7 @@ const Cart = () => {
             </div>
             <div className="border-t pt-4">
                 <div className="flex justify-between items-center">
-                    <p className="text-lg font-semibold">Suma</p>
+                    <p className="text-lg font-semibold">Total</p>
                     <p className="text-lg font-semibold">{products.reduce((sum, product) => sum + product.price * product.quantity, 0).toFixed(2)} zł</p>
                 </div>
             </div>
@@ -248,16 +246,24 @@ const Cart = () => {
                 </SheetTrigger>
                 <SheetContent>
                     <SheetHeader>
-                        <SheetTitle>Koszyk</SheetTitle>
+                        <SheetTitle>Cart</SheetTitle>
                     </SheetHeader>
-                    {pages[step]}
-                    <SheetFooter className="flex flex-row">
-                        {canGoToPrevStep && <Button variant="outline" className="flex-1" size="lg" onClick={goToPrevStep} disabled={isLoading}>Wstecz</Button>}
-                        <Button className="flex-1" size="lg" onClick={!canGoToNextStep ? createOrder : handleNextStep} disabled={isLoading || products.length < 1}>
-                            
-                            {!canGoToNextStep ? "Złóż zamówienie" : "Dalej"}
-                        </Button>
-                    </SheetFooter>
+
+                    {!!auth.user ? <>
+                        {pages[step]}
+                        <SheetFooter className="flex flex-row">
+                            {canGoToPrevStep && <Button variant="outline" className="flex-1" size="lg" onClick={goToPrevStep} disabled={isLoading}>Back</Button>}
+                            <Button className="flex-1" size="lg" onClick={!canGoToNextStep ? createOrder : handleNextStep} disabled={isLoading || products.length < 1}>
+
+                                {!canGoToNextStep ? "Place order" : "Next"}
+                            </Button>
+                        </SheetFooter>
+                    </>
+                        : <div className="flex flex-col gap-4 px-4">
+                            <h1 className="text-lg font-semibold">You need to be logged in to place an order</h1>
+                            <Button variant="outline" size="lg" onClick={() => router.visit('/login')}>Login</Button>
+                        </div>}
+
                 </SheetContent>
             </Sheet>
         </>
