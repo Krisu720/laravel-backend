@@ -15,8 +15,8 @@ export default function Products({ products }: Props) {
     return (
         <AppLayout >
             <div className="container">
-                <h1 className="text-6xl font-bold mx-auto mb-6">Products</h1>
-            <div className="grid grid-cols-4 gap-6">
+                <h1 className="mx-auto mb-6 text-center text-4xl font-bold md:text-6xl">Products</h1>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {products.map((product) => (
                     <ProductCard key={product.id} product={product} />
                 ))}

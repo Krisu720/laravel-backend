@@ -35,7 +35,7 @@ export default function Login({ status }: LoginProps) {
     };
 
     return (
-        <AuthLayout title="Zaloguj się" description="Wpisz swój email i hasło poniżej aby zalogować się do swojego konta">
+        <AuthLayout title="Log in" description="Enter your email and password below to log into your account">
             <Head title="Log in" />
 
             <form className="flex flex-col gap-6" onSubmit={submit}>
@@ -58,7 +58,7 @@ export default function Login({ status }: LoginProps) {
 
                     <div className="grid gap-2">
                         <div className="flex items-center">
-                            <Label htmlFor="password">Hasło</Label>
+                            <Label htmlFor="password">Password</Label>
                         </div>
                         <Input
                             id="password"
@@ -68,7 +68,7 @@ export default function Login({ status }: LoginProps) {
                             autoComplete="current-password"
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
-                            placeholder="Hasło"
+                            placeholder="Password"
                         />
                         <InputError message={errors.password} />
                     </div>
@@ -81,19 +81,19 @@ export default function Login({ status }: LoginProps) {
                             onClick={() => setData('remember', !data.remember)}
                             tabIndex={3}
                         />
-                        <Label htmlFor="remember">Zapamiętaj mnie</Label>
+                        <Label htmlFor="remember">Remember me</Label>
                     </div>
 
                     <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                        Zaloguj się
+                        Log in
                     </Button>
                 </div>
 
                 <div className="text-muted-foreground text-center text-sm">
-                    Nie masz jeszcze konta?{' '}
+                    Don't have an account yet?{' '}
                     <TextLink href={route('register')} tabIndex={5}>
-                        Stwórz konto
+                        Create an account
                     </TextLink>
                 </div>
             </form>

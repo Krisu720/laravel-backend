@@ -20,11 +20,11 @@ const SingleProduct = (props: { product: Product }) => {
 
     return (
         <AppLayout>
-            <div className='grid grid-cols-2 container'>
-                <img src={props.product.image ? "http://localhost:8000/storage/" + props.product.image : 'https://placehold.co/600x600'} className='object-cover bg-gray-100 w-full' />
-                <div className='p-24'>
+            <div className='container grid grid-cols-1 gap-6 md:grid-cols-2'>
+                <img src={props.product.image ? "http://localhost:8000/storage/" + props.product.image : 'https://placehold.co/600x600'} className='aspect-square w-full bg-gray-100 object-cover md:h-auto' />
+                <div className='p-6 md:p-12 lg:p-24'>
                     <h1 className='text-3xl font-medium'>{props.product.name}</h1>
-                    <h2 className='text-xl text-gray-500 mt-4'>{props.product.description}</h2>
+                    <h2 className='mt-4 text-xl text-gray-500'>{props.product.description}</h2>
                     <p className='text-semibold text-2xl mt-6'>{props.product.price.toFixed(2)} PLN</p>
                     <div className='mt-8 flex'>
                         {cartProduct ? (
@@ -54,7 +54,7 @@ const SingleProduct = (props: { product: Product }) => {
                 </div>
             </div>
             <div className='container'>
-                <h1 className='text-6xl font-bold mx-auto mb-6'>Other products</h1>
+                <h1 className='mx-auto mb-6 text-center text-3xl font-bold md:text-6xl'>Other products</h1>
                 <CarouselItems />
             </div>
         </AppLayout>

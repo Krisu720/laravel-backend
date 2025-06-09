@@ -108,7 +108,7 @@ const Cart = () => {
                 <div className="flex flex-col ml-2 my-auto">
                     <div className="flex justify-between">
                         <div className="flex flex-col">
-                            <h1 className="text-xl font-semibold">{product.name}</h1>
+                            <h1 className="text-xl font-semibold line-clamp-1">{product.name}</h1>
                             <p className="text-lg">{product.price.toFixed(2)} zł</p>
                         </div>
                         <Button onClick={() => removeProduct(product)} size="icon" variant="ghost" className="hover:bg-destructive/10 hover:text-red-500 transition-none cursor-pointer">

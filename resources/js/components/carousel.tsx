@@ -56,7 +56,7 @@ const CarouselItems = () => {
                 }}>
                     <CarouselContent className='flex '>
                         {products.map(product => (
-                            <CarouselItem key={product.id} className='basis-1/4 cursor-pointer'>
+                            <CarouselItem key={product.id} className='basis-1/2 md:basis-1/4 cursor-pointer'>
                                 <Link href={`/products/${product.id}`}>
                                     <img src={product.image} className='h-100 w-full object-cover' />
                                     <div className='bg-white p-4 '>

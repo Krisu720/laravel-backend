@@ -8,17 +8,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::get('/products', function () {
     $products = Product::all();
     
     return Inertia::render('products',['products'=>$products]);
 })->name('home');
 
-Route::get('/product/{product}',function (Product $product){
+Route::get('/products/{product}',function (Product $product){
     return Inertia::render('sigle-product',['product'=>$product]);
 })->name('product');
 
-Route::get('/mainpage',function (){
+Route::get('/',function (){
     return Inertia::render('mainpage');
 })->name('mainpage');
 

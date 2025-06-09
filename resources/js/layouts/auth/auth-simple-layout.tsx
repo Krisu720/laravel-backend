@@ -17,7 +17,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                 <div className="w-full max-w-sm mx-auto my-auto ">
                     <div className="flex flex-col gap-8">
                         <Button variant="ghost" className='w-fit' onClick={() => router.visit(route('mainpage'))}>
-                            <ArrowLeft /> Powrót
+                            <ArrowLeft /> Back
                         </Button>
                         <div className="flex flex-col items-center gap-4">
                             <Link href={route('home')} className="flex flex-col items-center gap-2 font-medium">
