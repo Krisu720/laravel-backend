@@ -24,7 +24,7 @@ Route::get('/mainpage',function (){
 
 Route::middleware(['auth'])->group(function () {
     Route::get('konto', function () {
-        $orders = Order::where('user_id', Auth::id())->get();
+        $orders = Order::where('user_id', Auth::id())->with('items')->get();
         return Inertia::render('konto',['orders'=>$orders]);
     })->name('konto');
 

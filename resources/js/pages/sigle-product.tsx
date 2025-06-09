@@ -1,9 +1,10 @@
-import Navbar from '@/components/navbar'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import useCartStore from '@/hooks/use-cart-store'
 import { MinusIcon, PlusIcon } from 'lucide-react'
 import { Group, Button as NumberButton,Input as AriaInput, NumberField } from "react-aria-components";
+import AppLayout from '@/layouts/app-layout'
+import CarouselItems from '@/components/carousel'
 export type Product = {
     id: number;
     name: string;
@@ -18,9 +19,8 @@ const SingleProduct = (props: { product: Product }) => {
     const cartProduct = products.find(p => p.id === props.product.id);
 
     return (
-        <div>
-            <Navbar />
-            <div className='h-svh grid grid-cols-2'>
+        <AppLayout>
+            <div className='grid grid-cols-2 container'>
                 <img src={props.product.image ? "http://localhost:8000/storage/" + props.product.image : 'https://placehold.co/600x600'} className='object-cover bg-gray-100 w-full' />
                 <div className='p-24'>
                     <h1 className='text-3xl font-medium'>{props.product.name}</h1>
@@ -53,7 +53,11 @@ const SingleProduct = (props: { product: Product }) => {
                     </div>
                 </div>
             </div>
-        </div>
+            <div className='container'>
+                <h1 className='text-6xl font-bold mx-auto mb-6'>Inne</h1>
+                <CarouselItems />
+            </div>
+        </AppLayout>
     )
 }
 

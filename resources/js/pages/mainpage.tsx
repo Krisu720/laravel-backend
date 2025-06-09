@@ -1,23 +1,14 @@
 import { AnimatedNumber } from '@/components/ui/animated-number'
 import { Button } from '@/components/ui/button'
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { InfiniteSlider } from '@/components/ui/infinite-slider'
 import AppLayout from '@/layouts/app-layout'
-import { Link } from '@inertiajs/react'
 import { useInView } from 'framer-motion'
-import { ArrowLeft, ArrowRight, ArrowUpRightIcon, LeafIcon } from 'lucide-react'
+import { ArrowUpRightIcon, LeafIcon } from 'lucide-react'
 import React, { useRef, useState } from 'react'
+import CarouselItems from '@/components/carousel'
 
 const Mainpage = () => {
-    const [api, setApi] = useState<CarouselApi>()
 
-    const handleNext = () => {
-        api?.scrollNext()
-    }
-
-    const handlePrev = () => {
-        api?.scrollPrev()
-    }
     const [value, setValue] = useState(0);
     const [value2, setValue2] = useState(0);
     const [value3, setValue3] = useState(0);
@@ -69,41 +60,7 @@ const Mainpage = () => {
                 </div>
             </div>
 
-            <div className='container'>
-                <div className='flex  items-center'>
-                    <h1 className='text-3xl'>Sales</h1>
-                    <div className='flex gap-2 ml-auto'>
-                        <Button onClick={handlePrev} className='size-14 bg-gray-100 group hover:bg-black'>
-                            <ArrowLeft className='size-6 text-black group-hover:text-white' />
-                        </Button>
-                        <Button onClick={handleNext} className='size-14 bg-gray-100 group hover:bg-black'>
-                            <ArrowRight className='size-6 text-black group-hover:text-white' />
-                        </Button>
-                    </div>
-                </div>
-                <div className='mt-4'>
-                    <Carousel setApi={setApi} opts={{
-                        align: 'start',
-                        skipSnaps: false,
-                        loop: true,
-                    }}>
-                        <CarouselContent className='flex '>
-                            {Array.from({ length: 8 }).map((_, index) => (
-                                <CarouselItem key={index} className='basis-1/4'>
-                                    <img src="suitproduct.webp" className='h-100 w-full object-cover' />
-                                    <div className='bg-white p-4 '>
-                                        <h1 className='font-bold'>Men's Suit</h1>
-                                        <h1 className='text-gray-700 text-sm'>100% Cotton Blue Suit </h1>
-                                        <h1 className='mt-2'>80.99 PLN</h1>
-                                    </div>
-                                </CarouselItem>
-                            ))}
-
-                        </CarouselContent>
-                    </Carousel>
-                </div>
-
-            </div>
+         <CarouselItems />
             <div ref={ref} className='grid grid-cols-4 container my-24'>
                 <div className=''>
                     <h1 className='text-7xl font-thin'>Over</h1>
@@ -164,16 +121,6 @@ const Mainpage = () => {
                 <h1 className='text-[300px] bg-clip-text text-transparent bg-radial-[at_50%_72%] from-slate-200 via-slate-950 to-amber-900 to-90% leading-none font-extrabold text-center'>
                     2025
                 </h1>
-            </div>
-
-
-            <div className='bg-gray-50 border-t p-6 flex justify-between items-center'>
-                <Link href="/" className="text-3xl tracking-widest ">Monsieur</Link>
-                <span className='text-gray-500'>© 2025 Monsieur - All rights reserved</span>
-                <div className='flex items-center gap-4'>
-                    <a href="/" className="text-lg  hover:bg-black hover:text-white">Author</a>
-                    <a href="/" className="text-lg  hover:bg-black hover:text-white">Repository</a>
-                </div>
             </div>
         </AppLayout>
     )

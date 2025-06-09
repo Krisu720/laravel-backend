@@ -7,16 +7,26 @@ import { Input } from '@/components/ui/input';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+interface OrderItem {
+  id: number;
+  product_name: string;
+  product_price: number;
+  quantity: number;
+}
+
 interface Order {
   id: number;
   status: string;
-  address: string;
+  street: string;
+  city: string;
+  postal_code: string;
   phone: string;
   email: string;
   note: string;
   created_at: string | null;
   updated_at: string | null;
   user_id: number;
+  items: OrderItem[];
 }
 
 const Konto = ({ orders }: { orders: Order[] }) => {
@@ -123,11 +133,26 @@ const Konto = ({ orders }: { orders: Order[] }) => {
                       <div className=''>
                         <p className="font-medium">Zamówienie #{order.id}</p>
                         <p className="text-sm text-gray-600">{order.created_at && format(new Date(order.created_at), 'dd.MM.yyyy')}</p>
-                        <p className="text-sm text-gray-600">{order.address}</p>
+                        <p className="text-sm text-gray-600">{order.street}, {order.postal_code} {order.city}</p>
+                        <p className="text-sm text-gray-600">Email: {order.email}</p>
+                        <p className="text-sm text-gray-600">Telefon: {order.phone}</p>
                       </div>
                       <span className="px-3 py-1 text-sm rounded-full bg-green-500 text-white font-bold">
                         {order.status}
                       </span>
+                    </div>
+                    <div className="p-4">
+                      <div className="flex justify-between items-center">
+                        <h4 className="font-semibold">Produkty:</h4>
+                        <p className="font-semibold">Suma: {order.items.reduce((acc, item) => acc + item.product_price * item.quantity, 0).toFixed(2)} zł</p>
+                      </div>
+                      <ul className="list-disc list-inside mt-2">
+                        {order.items.map((item) => (
+                          <li key={item.id}>
+                            {item.product_name} - {item.quantity} szt.
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
                 ))}
