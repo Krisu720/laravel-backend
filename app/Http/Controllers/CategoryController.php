@@ -52,7 +52,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = Category::find($id);
+        return response()->json($category);
     }
 
     /**
@@ -60,7 +61,17 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category = Category::find($id);
+        if(!$category) {
+            return response()->json(["message"=>"not found"], 404);
+        }
+
+        $data = $request->validate([
+            'name' => ['required', 'min:3']
+        ]);
+
+        $category->update($data);
+        return response()->json($category);
     }
 
     /**
