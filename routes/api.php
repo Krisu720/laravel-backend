@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\SeedingController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/test', function () {
@@ -17,3 +18,6 @@ Route::post('/products/{product}/image', [ProductImageController::class, 'upload
 Route::middleware(['web', 'auth'])->group(function () {
     Route::resource('orders', OrderController::class);
 });
+
+
+Route::post('/seed', [SeedingController::class, 'seed']);
