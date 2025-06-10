@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/products', function () {
-    $products = Product::all();
+    $products = Product::with('category')->get();
     
     return Inertia::render('products',['products'=>$products]);
 })->name('home');

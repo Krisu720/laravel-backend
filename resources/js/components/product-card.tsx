@@ -6,6 +6,10 @@ type Product = {
   description: string;
   price: number;
   image: string | null;
+  category: {
+    id: number;
+    name: string;
+  };
 }
 
 const ProductCard = (props: { product: Product }) => {
@@ -15,7 +19,8 @@ const ProductCard = (props: { product: Product }) => {
         : <img src='https://placehold.co/600x600' className='h-80 object-cover w-full bg-gray-100' />}
       <div className='flex flex-col gap-2 p-6 text-center'>
         <h1 className='text-lg font-medium'>{props.product.name}</h1>
-        <h1 >{props.product.price.toFixed(2)} PLN</h1>
+        <p className='text-sm text-gray-500'>{props.product.category.name}</p>
+        <h1>{props.product.price.toFixed(2)} PLN</h1>
       </div>
     </a>
   )
