@@ -58,10 +58,10 @@ const CarouselItems = () => {
                         {products.map(product => (
                             <CarouselItem key={product.id} className='basis-1/2 md:basis-1/4 cursor-pointer'>
                                 <Link href={`/products/${product.id}`}>
-                                    <img src={product.image} className='h-100 w-full object-cover' />
+                                    <img src={"http://localhost:8000/storage/" + product.image} className='h-100 w-full object-contain' />
                                     <div className='bg-white p-4 '>
                                         <h1 className='font-bold'>{product.name}</h1>
-                                        <h1 className='text-gray-700 text-sm'>{product.description}</h1>
+                                        <h1 className='text-gray-700 text-sm line-clamp-2'>{product.description}</h1>
                                         <h1 className='mt-2'>{product.price} PLN</h1>
                                     </div>
                                 </Link>

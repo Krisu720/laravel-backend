@@ -6,6 +6,7 @@ import { useInView } from 'framer-motion'
 import { ArrowUpRightIcon, LeafIcon } from 'lucide-react'
 import React, { useRef, useState } from 'react'
 import CarouselItems from '@/components/carousel'
+import { Link } from '@inertiajs/react'
 
 const Mainpage = () => {
 
@@ -50,9 +51,11 @@ const Mainpage = () => {
                             <h1 className='text-2xl font-thin md:text-3xl'>Wear it classic</h1>
                             <h2 className='text-4xl font-extrabold md:text-6xl'>Men's Collection</h2>
                             <h3 className='text-xl text-gray-600 md:text-2xl'>Get it now to be a gentleman</h3>
-                            <Button size="lg" className='w-50 mt-6 py-8 text-lg md:text-xl' onClick={() => window.location.href = '/'}>
-                                Shop Now <ArrowUpRightIcon className='size-6' />
-                            </Button>
+                            <Link href="/products">
+                                <Button size="lg" className='w-50 mt-6 py-8 text-lg md:text-xl'>
+                                    Shop Now <ArrowUpRightIcon className='size-6' />
+                                </Button>
+                            </Link>
                         </div>
                         <div className='relative h-96 p-6 md:h-auto md:p-12'>
                             <div className='border-10 border-white top-1/6 absolute h-140 w-140' />

@@ -11,7 +11,7 @@ type Product = {
 const ProductCard = (props: { product: Product }) => {
   return (
     <a href={'/products/' + props.product.id}>
-      {props.product.image ? <img src={"http://localhost:8000/storage/" + props.product.image} className='h-250 object-cover w-full bg-gray-100' />
+      {props.product.image ? <img src={"http://localhost:8000/storage/" + props.product.image} className='h-80 object-cover w-full bg-gray-100' />
         : <img src='https://placehold.co/600x600' className='h-80 object-cover w-full bg-gray-100' />}
       <div className='flex flex-col gap-2 p-6 text-center'>
         <h1 className='text-lg font-medium'>{props.product.name}</h1>
